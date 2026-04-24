@@ -36,10 +36,16 @@
 }
 
 .main-bg {
-  background-image: url("/images/main-background.jpg");
+  background-image: url("/images/ecuador.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+}
+
+@media (min-width: 768px) {
+  .main-bg {
+    background-position: center 28%;
+  }
 }
 
 .bg-overlay-dim {

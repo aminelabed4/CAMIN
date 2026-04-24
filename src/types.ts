@@ -15,10 +15,12 @@ export interface Translation {
   };
   hero: {
     countdown: string;
+    date: string;
     days: string;
     hours: string;
     minutes: string;
     seconds: string;
+    readMore: string;
   };
   story: {
     title: string;
@@ -57,10 +59,15 @@ export interface Translation {
     notAttending: string;
     guests: string;
     dietary: string;
+    dietaryPlaceholder: string;
     submit: string;
     thankYou: string;
+    thankYouPlural: string;
+    thankYouPersonal: string;
+    addToCalendar: string;
   };
   faq: {
     title: string;
+    questions: Array<{ q: string; a: string }>;
   };
 }

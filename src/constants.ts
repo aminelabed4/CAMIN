@@ -39,17 +39,105 @@ import { Guest, Translation, Language } from './types';
 
 export const GUESTS: Guest[] = [
   // ========== GROUP A - Ceremony + Reception ==========
-  { name: "Anna & Marc", code: "anna-marc", group: "A", gender: "p" },
-  { name: "Jean-Pierre", code: "jp", group: "A", gender: "m" },
+  { name: "Viviana Jaramillo y Gonzalo Meza", code: "viviana-gonzalo-meza", group: "A", gender: "p" },
+  { name: "Gonzalo Meza Jaramillo", code: "gonzalo-meza-jaramillo", group: "A", gender: "m" },
+  { name: "Mateo Meza", code: "mateo-meza", group: "A", gender: "m" },
+  { name: "Elisa Jarrin", code: "elisa-jarrin", group: "A", gender: "f" },
+  { name: "Jenny Paredes y Gonzalo Meza", code: "jenny-gonzalo-meza", group: "A", gender: "p" },
+  { name: "Andrea Meza y Jorge Luis Parra", code: "andrea-jorge-parra", group: "A", gender: "p" },
+  { name: "Lucia Ochoa y Eduardo Oviedo", code: "lucia-eduardo", group: "A", gender: "p" },
+  { name: "Daniel Jaramillo y Sol Rubio", code: "daniel-sol", group: "A", gender: "p" },
+  { name: "Daniela Jaramillo", code: "daniela-jaramillo", group: "A", gender: "f" },
+  { name: "Essia Bougdar y Anuar El Abed", code: "essia-anuar", group: "A", gender: "p" },
+  { name: "Nesrine El Abed y Elias Negra", code: "nesrine-elias", group: "A", gender: "p" },
+  { name: "Cecilia Utreras", code: "cecilia-utreras", group: "A", gender: "f" },
+  { name: "Yolanda Hernandez", code: "yolanda-hernandez", group: "A", gender: "f" },
+  { name: "Daniela Olmedo", code: "daniela-olmedo", group: "A", gender: "f" },
+  { name: "Natalia Paredes", code: "natalia-paredes", group: "A", gender: "f" },
+  { name: "Anton Dünnerbier", code: "anton-dunnerbier", group: "A", gender: "m" },
+  { name: "Christian Parra", code: "christian-parra", group: "A", gender: "m" },
+  { name: "Franchesca Parra", code: "franchesca-parra", group: "A", gender: "f" },
+  { name: "María Laura Ochoa", code: "maria-laura-ochoa", group: "A", gender: "f" },
+  { name: "Paula Martínez", code: "paula-martinez", group: "A", gender: "f" },
 
   // ========== GROUP B - Reception Only ==========
-  { name: "Sophie", code: "sophie", group: "B", gender: "f" },
-  { name: "Elena", code: "elena", group: "B", gender: "f" },
-
-  // ========== ADD YOUR GUESTS BELOW ==========
-  // Copy and paste this line, then edit:
-  // { name: "Guest Name", code: "guest-code", group: "A", gender: "f/m/p" },
-
+  { name: "María Laura Cueva", code: "maria-laura-cueva", group: "B", gender: "f" },
+  { name: "Sofía Manosalvas", code: "sofia-manosalvas", group: "B", gender: "f" },
+  { name: "María Beatriz Cueva y Jorge Cueva", code: "maria-beatriz-jorge-cueva", group: "B", gender: "p" },
+  { name: "Nicolás Abumohor y María José Vinueza", code: "nicolas-maria-jose", group: "B", gender: "p" },
+  { name: "Estefanía Abumohor y Julio Álvarez", code: "estefania-julio", group: "B", gender: "p" },
+  { name: "Beatriz Ochoa y Cristian Abumohor", code: "beatriz-cristian-abumohor", group: "B", gender: "p" },
+  { name: "Valentina Contreras y Matías Estrada", code: "valentina-matias", group: "B", gender: "p" },
+  { name: "Francisca Bravo", code: "francisca-bravo", group: "B", gender: "f" },
+  { name: "Andrea Thiel y Fernando Bravo", code: "andrea-fernando-bravo", group: "B", gender: "p" },
+  { name: "Merce Cardenas, Carlos Olmedo y Rafa Guillén", code: "merce-carlos-rafa", group: "B", gender: "p" },
+  { name: "Ariana Salazar", code: "ariana-salazar", group: "B", gender: "f" },
+  { name: "Alexa Celi", code: "alexa-celi", group: "B", gender: "f" },
+  { name: "Jesús López y Mayra", code: "jesus-mayra", group: "B", gender: "p" },
+  { name: "Marco Quilumba y Señora", code: "marco-quilumba", group: "B", gender: "p" },
+  { name: "Cristina Vela", code: "cristina-vela", group: "B", gender: "f" },
+  { name: "Sebastián Díaz", code: "sebastian-diaz", group: "B", gender: "m" },
+  { name: "Hugo Tamayo y Ana López", code: "hugo-ana-lopez", group: "B", gender: "p" },
+  { name: "María Agusta Olmedo y Christian Gavilanes", code: "maria-agusta-christian", group: "B", gender: "p" },
+  { name: "Jonathan Reyes y Daniela Fontana", code: "jonathan-daniela", group: "B", gender: "p" },
+  { name: "Emilia Carrión", code: "emilia-carrion", group: "B", gender: "f" },
+  { name: "Alegría Aguirre", code: "alegria-aguirre", group: "B", gender: "f" },
+  { name: "Kevin Montero y Veronica Caraguay", code: "kevin-veronica", group: "B", gender: "p" },
+  { name: "Jenny Baca y esposo", code: "jenny-baca", group: "B", gender: "p" },
+  { name: "Gabriela Valarezo y Andrés Guerrero", code: "gabriela-andres", group: "B", gender: "p" },
+  { name: "Daniela Gonzalez y Martin Salerni", code: "daniela-martin", group: "B", gender: "p" },
+  { name: "Cynthia Ordóñez", code: "cynthia-ordonez", group: "B", gender: "f" },
+  { name: "Cristian Gudiño y Gabriela", code: "cristian-gabriela-gudino", group: "B", gender: "p" },
+  { name: "Jaime González", code: "jaime-gonzalez", group: "B", gender: "m" },
+  { name: "Ivan Aguirre y Micaela Montalvo", code: "ivan-micaela", group: "B", gender: "p" },
+  { name: "Camila Chávez", code: "camila-chavez", group: "B", gender: "f" },
+  { name: "Alma Löfgren", code: "alma-lofgren", group: "B", gender: "f" },
+  { name: "Yoandra García y Duniel Camejo", code: "yoandra-duniel", group: "B", gender: "p" },
+  { name: "Andrea López y Juan Ignacio Gallego", code: "andrea-juan-ignacio", group: "B", gender: "p" },
+  { name: "Juliana Naranjo", code: "juliana-naranjo", group: "B", gender: "f" },
+  { name: "Cristian Cruz", code: "cristian-cruz", group: "B", gender: "m" },
+  { name: "Carlos Tello y Daniela Yokens", code: "carlos-daniela-yokens", group: "B", gender: "p" },
+  { name: "Claudia Lasso", code: "claudia-lasso", group: "B", gender: "f" },
+  { name: "Cristian Lasprilla y Faby García", code: "cristian-faby", group: "B", gender: "p" },
+  { name: "Alejandra Romero y Esposo", code: "alejandra-romero", group: "B", gender: "p" },
+  { name: "Ariel Lasprilla", code: "ariel-lasprilla", group: "B", gender: "f" },
+  { name: "Carlos Mosquera y Esposa", code: "carlos-mosquera", group: "B", gender: "p" },
+  { name: "Christian Ruales y Malena Malo", code: "christian-malena", group: "B", gender: "p" },
+  { name: "Pedro Klaic", code: "pedro-klaic", group: "B", gender: "m" },
+  { name: "Fernando Romero y Gabriela Herrera", code: "fernando-gabriela-herrera", group: "B", gender: "p" },
+  { name: "Edwin Yepez y Karen Sandoval", code: "edwin-karen", group: "B", gender: "p" },
+  { name: "Sonia Meza", code: "sonia-meza", group: "B", gender: "f" },
+  { name: "Ruth Meza", code: "ruth-meza", group: "B", gender: "f" },
+  { name: "Sandra Meza y Rodrigo Serna", code: "sandra-rodrigo", group: "B", gender: "p" },
+  { name: "René Meza y Señora", code: "rene-meza", group: "B", gender: "p" },
+  { name: "Manolo Meza y María Elena", code: "manolo-maria-elena", group: "B", gender: "p" },
+  { name: "Ralf Jaramillo y María Paz Bravo", code: "ralf-maria-paz", group: "B", gender: "p" },
+  { name: "Marcelo y Paola Hidalgo", code: "marcelo-paola", group: "B", gender: "p" },
+  { name: "Alex Zabala y Lenin Martínez", code: "alex-lenin", group: "B", gender: "p" },
+  { name: "Ana Rosa Dávalos y Freddy López", code: "ana-rosa-freddy", group: "B", gender: "p" },
+  { name: "Daniela López", code: "daniela-lopez", group: "B", gender: "f" },
+  { name: "Ana María López", code: "ana-maria-lopez", group: "B", gender: "f" },
+  { name: "Fernanda Carvajal y esposo", code: "fernanda-carvajal", group: "B", gender: "p" },
+  { name: "Javier Dávila y Claudia González", code: "javier-claudia", group: "B", gender: "p" },
+  { name: "Alexander Chala", code: "alexander-chala", group: "B", gender: "m" },
+  { name: "Diego Bedon y Señora", code: "diego-bedon", group: "B", gender: "p" },
+  { name: "Karina Harbst", code: "karina-harbst", group: "B", gender: "f" },
+  { name: "Juan Oviedo", code: "juan-oviedo", group: "B", gender: "m" },
+  { name: "Mary Fürer", code: "mary-furer", group: "B", gender: "f" },
+  { name: "Hassan Zeroual and his wife", code: "hassan-zeroual", group: "B", gender: "p" },
+  { name: "Patrick Wagner", code: "patrick-wagner", group: "B", gender: "m" },
+  { name: "Margulan Otanuly", code: "margulan-otanuly", group: "B", gender: "m" },
+  { name: "Mohammed and Amina", code: "mohammed-amina", group: "B", gender: "p" },
+  { name: "Michelle Oviedo", code: "michelle-oviedo", group: "B", gender: "f" },
+  { name: "Misheel", code: "misheel", group: "B", gender: "f" },
+  { name: "Gustavo Egüez y Gabriela Carrión", code: "gustavo-gabriela-carrion", group: "B", gender: "p" },
+  { name: "Lía Galarza", code: "lia-galarza", group: "B", gender: "f" },
+  { name: "Gabriela Bedoya", code: "gabriela-bedoya", group: "B", gender: "f" },
+  { name: "Julio Palacios", code: "julio-palacios", group: "B", gender: "m" },
+  { name: "François Abumohor", code: "francois-abumohor", group: "B", gender: "m" },
+  { name: "Sisa Cueva", code: "sisa-cueva", group: "B", gender: "f" },
+  { name: "Sara Cueva", code: "sara-cueva", group: "B", gender: "f" },
+  { name: "Pau Abumohor", code: "pau-abumohor", group: "B", gender: "f" },
 ];
 
 // Helper function to get gendered greeting
@@ -76,10 +164,12 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     hero: {
       countdown: "Counting down to our big day",
+      date: "August 29, 2026 • Quito, Ecuador",
       days: "Days",
       hours: "Hours",
       minutes: "Minutes",
-      seconds: "Seconds"
+      seconds: "Seconds",
+      readMore: "Read more"
     },
     story: {
       title: "Our Story",
@@ -102,7 +192,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     dressCode: {
       title: "Dress Code",
       description: "Formal Attire. We suggest elegant outfits suitable for an evening celebration in the Ecuadorian highlands.",
-      note: "Note: White is reserved for the bride."
+      note: "Note: White is reserved for the bride. Light blue is reserved for the groom."
     },
     gift: {
       title: "Gift for Our Journey",
@@ -118,11 +208,20 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       notAttending: "Regretfully, I can't make it",
       guests: "Number of Guests",
       dietary: "Dietary Restrictions",
+      dietaryPlaceholder: "If you have any allergies or dietary restrictions, please let us know here",
       submit: "Send Response",
-      thankYou: "Thank you for your response!"
+      thankYou: "Thank you for your response!",
+      thankYouPlural: "Thank you for your response!",
+      thankYouPersonal: "Thank you, {name}!",
+      addToCalendar: "Add to Calendar"
     },
     faq: {
-      title: "Details & FAQ"
+      title: "Details & FAQ",
+      questions: [
+        { q: "Are children invited?", a: "While we love the little ones, we have decided that our wedding and reception will be an adults-only event. We hope you understand and enjoy a night off!" },
+        { q: "Can I bring someone else?", a: "Due to venue capacity limitations, we can only accommodate guests formally named on your invitation." },
+        { q: "Is there parking?", a: "Yes, there is ample free parking available at the venue." }
+      ]
     }
   },
   fr: {
@@ -133,10 +232,12 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     hero: {
       countdown: "Compte à rebours jusqu'au grand jour",
+      date: "29 août 2026 • Quito, Équateur",
       days: "Jours",
       hours: "Heures",
       minutes: "Minutes",
-      seconds: "Secondes"
+      seconds: "Secondes",
+      readMore: "Lire la suite"
     },
     story: {
       title: "Notre Histoire",
@@ -159,7 +260,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     dressCode: {
       title: "Code Vestimentaire",
       description: "Tenue de soirée. Nous suggérons des tenues élégantes adaptées à une célébration en soirée dans les hautes terres équatoriennes.",
-      note: "Note : Le blanc est réservé à la mariée."
+      note: "Note : Le blanc est réservé à la mariée. Le bleu clair est réservé au marié."
     },
     gift: {
       title: "Cadeau pour notre voyage",
@@ -175,29 +276,40 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       notAttending: "Malheureusement, je ne pourrai pas venir",
       guests: "Nombre d'invités",
       dietary: "Restrictions alimentaires",
+      dietaryPlaceholder: "Si vous avez des allergies ou des restrictions alimentaires, veuillez nous en informer ici",
       submit: "Envoyer la réponse",
-      thankYou: "Merci pour votre réponse !"
+      thankYou: "Merci pour ta réponse !",
+      thankYouPlural: "Merci pour votre réponse !",
+      thankYouPersonal: "Merci, {name} !",
+      addToCalendar: "Ajouter au calendrier"
     },
     faq: {
-      title: "Détails & FAQ"
+      title: "Détails & FAQ",
+      questions: [
+        { q: "Les enfants sont-ils invités ?", a: "Bien que nous adorions les plus jeunes, nous avons décidé que notre mariage et notre réception seraient un événement réservé aux adultes. Nous espérons que vous comprendrez et profiterez d'une soirée libre !" },
+        { q: "Puis-je amener quelqu'un d'autre ?", a: "En raison des limitations de capacité du lieu, nous ne pouvons accueillir que les invités formellement nommés sur votre invitation." },
+        { q: "Y a-t-il un parking ?", a: "Oui, un grand parking gratuit est disponible sur place." }
+      ]
     }
   },
   es: {
     letter: {
       dear: "Queridos",
-      message: "Estamos encantados de invitaros a celebrar nuestro día especial en el corazón de Ecuador. Vuestra presencia significaría mucho para nosotros.",
+      message: "Estamos encantados de invitarlos a celebrar nuestro día especial en el corazón de Ecuador. Su presencia significaría mucho para nosotros.",
       open: "Abrir Invitación"
     },
     hero: {
       countdown: "Cuenta atrás para nuestro gran día",
+      date: "29 de agosto de 2026 • Quito, Ecuador",
       days: "Días",
       hours: "Horas",
       minutes: "Minutos",
-      seconds: "Segundos"
+      seconds: "Segundos",
+      readMore: "Leer más"
     },
     story: {
       title: "Nuestra Historia",
-      content: "Nos conocimos a finales de 2020, ambos comenzando de nuevo en Bremen—Camila llegando desde Ecuador y Amin iniciando un nuevo capítulo en una ciudad diferente. Lo que comenzó como dos personas lejos de casa se convirtió en algo real—una conexión que se sentía como hogar en sí misma.\n\nHemos sido el apoyo del otro en los momentos difíciles y celebrado los más felices, desde las graduaciones de Amin hasta el día en que adoptamos a Zina, nuestra gata rescatada.\n\nEn enero de 2026, con una certeza que sentíamos desde hace tiempo, Amin le pidió a Camila que se casara con él. No fue una pregunta simple—pero fue la respuesta más fácil: sí, para el resto de nuestras vidas."
+      content: "Nos conocimos a finales de 2020, ambos comenzando de nuevo en Bremen—Camila llegando desde Ecuador y Amin iniciando un nuevo capítulo en una ciudad diferente. Lo que comenzó como dos personas lejos de casa se convirtió en algo real—una conexión que se sentía como hogar en sí misma.\n\nHemos sido el apoyo del otro en los momentos difíciles y celebrado los más felices, desde las graduaciones de Amin hasta el día que decidimos crecer nuestra familia adoptando a Zina, nuestra gata rescatada.\n\nEn enero de 2026, con una certeza que sentíamos desde hace tiempo, Amin le pidió a Camila que se casara con él. No fue una pregunta simple—pero fue la respuesta más fácil: sí, para el resto de nuestras vidas."
     },
     program: {
       title: "Tu Horario",
@@ -215,12 +327,12 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     dressCode: {
       title: "Código de Vestimenta",
-      description: "Traje Formal. Sugerimos atuendos elegantes adecuados para una celebración nocturna en las tierras altas ecuatorianas.",
-      note: "Nota: El blanco está reservado para la novia."
+      description: "Traje Formal. Sugerimos atuendos elegantes adecuados para una celebración en la tarde.",
+      note: "Nota: El blanco está reservado para la novia. El azul claro está reservado para el novio."
     },
     gift: {
       title: "Regalo para nuestro viaje",
-      message: "Vuestra presencia es el mejor regalo. Sin embargo, si deseáis contribuir a nuestro viaje de luna de miel, os estaríamos profundamente agradecidos.",
+      message: "Su presencia es el mejor regalo. Sin embargo, si deseas darnos un regalo de boda, podrías contribuir a nuestro viaje de luna de miel. Estaríamos profundamente agradecidos.",
       copy: "Copiar",
       copied: "¡Copiado!"
     },
@@ -232,11 +344,20 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       notAttending: "Lamentablemente, no puedo ir",
       guests: "Número de invitados",
       dietary: "Restricciones alimentarias",
+      dietaryPlaceholder: "Si tienes alguna alergia o restricción alimentaria, por favor indícala aquí",
       submit: "Enviar respuesta",
-      thankYou: "¡Gracias por tu respuesta!"
+      thankYou: "¡Gracias por tu respuesta!",
+      thankYouPlural: "¡Gracias por su respuesta!",
+      thankYouPersonal: "¡Gracias, {name}!",
+      addToCalendar: "Añadir al calendario"
     },
     faq: {
-      title: "Detalles y Preguntas Frecuentes"
+      title: "Detalles y Preguntas Frecuentes",
+      questions: [
+        { q: "¿Están invitados los niños?", a: "Aunque amamos a los más pequeños, hemos decidido que nuestra boda y recepción sean un evento solo para adultos. ¡Esperamos que lo entiendan y disfruten de una noche libre!" },
+        { q: "¿Puedo llevar a alguien más?", a: "Debido a las limitaciones de capacidad del lugar, solo podemos acomodar a los invitados nombrados formalmente en su invitación." },
+        { q: "¿Hay estacionamiento?", a: "Sí, hay un amplio estacionamiento gratuito disponible en el lugar." }
+      ]
     }
   }
 };

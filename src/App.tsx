@@ -3,21 +3,24 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useMemo, ReactNode, FormEvent } from 'react';
+import { useState, useEffect, useMemo, ReactNode, FormEvent, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Heart, 
-  MapPin, 
-  Calendar, 
-  Clock, 
-  Music, 
-  Utensils, 
-  Gift, 
-  CheckCircle2, 
-  Copy, 
+import {
+  Heart,
+  MapPin,
+  Calendar,
+  Clock,
+  Music,
+  Utensils,
+  Gift,
+  CheckCircle2,
+  Copy,
   ChevronDown,
   Globe,
-  Camera
+  Camera,
+  CalendarPlus,
+  Volume2,
+  VolumeX
 } from 'lucide-react';
 import { GUESTS, TRANSLATIONS, getGreeting } from './constants';
 import { Guest, Language } from './types';
@@ -25,7 +28,7 @@ import { Guest, Language } from './types';
 // --- Components ---
 
 const LanguageToggle = ({ current, onChange }: { current: Language, onChange: (l: Language) => void }) => (
-  <div className="fixed top-6 right-6 z-50 flex gap-2 bg-white/80 backdrop-blur-sm p-1 rounded-full border border-med-blue/20 shadow-sm">
+  <div className="fixed top-6 right-6 z-50 flex gap-2 bg-white/80  p-1 rounded-full border border-med-blue/20 shadow-sm">
     {(['es', 'en', 'fr'] as Language[]).map((lang) => (
       <button
         key={lang}
@@ -162,6 +165,12 @@ export default function App() {
   });
   const [guest, setGuest] = useState<Guest | null>(null);
   const [rsvpStatus, setRsvpStatus] = useState<'idle' | 'submitting' | 'success'>('idle');
+  const [attending, setAttending] = useState<boolean | null>(null);
+  const [formData, setFormData] = useState({ name: '', dietary: '' });
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const playerRef = useRef<any>(null);
+  const [playerReady, setPlayerReady] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -185,6 +194,141 @@ export default function App() {
   const t = TRANSLATIONS[lang];
   const guestName = guest ? guest.name : (lang === 'es' ? "Amigos y Familia" : lang === 'en' ? "Friends & Family" : "Amis & Famille");
 
+  useEffect(() => {
+    setFormData({ ...formData, name: guestName });
+  }, [guestName]);
+
+  // Track window resize for responsive spacing
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Load YouTube API
+  useEffect(() => {
+    const initializePlayer = () => {
+      const playerElement = document.getElementById('youtube-player');
+      console.log('Player element exists:', !!playerElement);
+
+      if (!playerElement) {
+        console.error('youtube-player div not found!');
+        return;
+      }
+
+      if (!playerRef.current) {
+        try {
+          console.log('Creating YouTube player...');
+          playerRef.current = new (window as any).YT.Player('youtube-player', {
+            height: '1',
+            width: '1',
+            videoId: 'npT_R6QvWvY',
+            playerVars: {
+              start: 36,
+              autoplay: 0,
+              controls: 0,
+              disablekb: 1,
+              modestbranding: 1,
+              loop: 1,
+              playlist: 'npT_R6QvWvY',
+              enablejsapi: 1,
+              origin: window.location.origin
+            },
+            events: {
+              onReady: (event: any) => {
+                console.log('✅ YouTube player initialized and ready!');
+                setPlayerReady(true);
+              },
+              onStateChange: (event: any) => {
+                console.log('Player state changed:', event.data);
+                const YT = (window as any).YT;
+                if (event.data === YT.PlayerState.PLAYING) {
+                  setIsMusicPlaying(true);
+                } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+                  setIsMusicPlaying(false);
+                }
+              },
+              onError: (event: any) => {
+                console.error('YouTube player error:', event.data);
+              }
+            }
+          });
+        } catch (error) {
+          console.error('Error creating player:', error);
+        }
+      }
+    };
+
+    const loadYouTubeAPI = () => {
+      console.log('Loading YouTube API...');
+
+      if (!(window as any).YT || !(window as any).YT.Player) {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.async = true;
+        document.body.appendChild(tag);
+
+        (window as any).onYouTubeIframeAPIReady = () => {
+          console.log('YouTube API ready!');
+          setTimeout(initializePlayer, 300);
+        };
+      } else {
+        console.log('YouTube API already loaded');
+        setTimeout(initializePlayer, 300);
+      }
+    };
+
+    // Wait for component to mount
+    const timer = setTimeout(loadYouTubeAPI, 100);
+
+    return () => {
+      clearTimeout(timer);
+      if (playerRef.current && typeof playerRef.current.destroy === 'function') {
+        try {
+          playerRef.current.destroy();
+        } catch (e) {
+          console.error('Error destroying player:', e);
+        }
+      }
+    };
+  }, []);
+
+  // Auto-play music when letter opens (step becomes 'opened')
+  useEffect(() => {
+    if (step === 'opened' && playerReady && playerRef.current) {
+      console.log('Attempting to play music...');
+      setTimeout(() => {
+        try {
+          playerRef.current.playVideo();
+          setIsMusicPlaying(true);
+          console.log('Music play command sent');
+        } catch (error) {
+          console.error('Error playing music:', error);
+        }
+      }, 500);
+    }
+  }, [step, playerReady]);
+
+  const toggleMusic = () => {
+    if (playerRef.current && playerReady) {
+      try {
+        if (isMusicPlaying) {
+          console.log('Pausing music');
+          playerRef.current.pauseVideo();
+        } else {
+          console.log('Playing music');
+          playerRef.current.playVideo();
+        }
+      } catch (error) {
+        console.error('Error toggling music:', error);
+      }
+    } else {
+      console.log('Player not ready yet. Ready state:', playerReady);
+    }
+  };
+
   // Get gendered greeting based on guest gender and language
   const greeting = guest ? getGreeting(lang, guest.gender) : t.letter.dear;
 
@@ -194,17 +338,82 @@ export default function App() {
     setTimeout(() => setStep('content'), 7000);
   };
 
-  const handleRsvp = (e: FormEvent) => {
-    e.preventDefault();
-    setRsvpStatus('submitting');
-    setTimeout(() => setRsvpStatus('success'), 1500);
+  const handleAddToCalendar = () => {
+    const eventDetails = {
+      title: 'Camila & Amin Wedding',
+      description: 'Wedding celebration at L\'Hacienda Ecuestre, Pifo, Ecuador',
+      location: 'L\'Hacienda Ecuestre, Pifo, Ecuador',
+      startTime: '2026-08-29T12:30:00',
+      endTime: '2026-08-29T18:00:00'
+    };
+
+    // Create ICS file content
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Wedding Invitation//EN',
+      'BEGIN:VEVENT',
+      `DTSTART:${eventDetails.startTime.replace(/[-:]/g, '')}`,
+      `DTEND:${eventDetails.endTime.replace(/[-:]/g, '')}`,
+      `SUMMARY:${eventDetails.title}`,
+      `DESCRIPTION:${eventDetails.description}`,
+      `LOCATION:${eventDetails.location}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    // Create blob and download
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'wedding-camila-amin.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
-  if (step !== 'content') {
-    return (
-      <div className="fixed inset-0 hero-bg flex items-center justify-center overflow-hidden p-4 z-[1000]">
-        <div className="absolute inset-0 bg-overlay-dim backdrop-blur-[2px]" />
-        <LanguageToggle current={lang} onChange={setLang} />
+  const handleRsvp = async (e: FormEvent) => {
+    e.preventDefault();
+
+    if (attending === null) {
+      alert('Please select whether you will attend');
+      return;
+    }
+
+    setRsvpStatus('submitting');
+
+    const googleFormUrl = 'https://docs.google.com/forms/d/e/1FAIpQLScacRgCJ8zLY7AIFkvjJi0xpG_8gccUFzHde-vDl405_ltDZQ/formResponse';
+
+    const attendanceValue = attending ? 'Yes' : 'No';
+
+    const formDataToSubmit = new FormData();
+    formDataToSubmit.append('entry.871001106', formData.name);
+    formDataToSubmit.append('entry.781024816', attendanceValue);
+    formDataToSubmit.append('entry.1118689535', formData.dietary);
+
+    console.log('Submitting:', {
+      name: formData.name,
+      attendance: attendanceValue,
+      dietary: formData.dietary
+    });
+
+    try {
+      await fetch(googleFormUrl, {
+        method: 'POST',
+        body: formDataToSubmit,
+        mode: 'no-cors'
+      });
+      setRsvpStatus('success');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setRsvpStatus('success'); // Still show success since no-cors doesn't return response
+    }
+  };
+
+  const envelopeView = (
+    <div className="fixed inset-0 hero-bg flex items-center justify-center overflow-hidden p-4 z-[1000]">
+          <div className="absolute inset-0 bg-overlay-dim backdrop-blur-[2px]" />
+          <LanguageToggle current={lang} onChange={setLang} />
         
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
@@ -241,10 +450,13 @@ export default function App() {
 
               {/* Address Label Overlay */}
               <motion.div
-                className="absolute top-[10%] sm:top-[-10%] left-1/2 -translate-x-1/2 text-center z-40 w-full"
+                className="absolute left-1/2 -translate-x-1/2 text-center z-40 w-full px-4"
+                style={{
+                  bottom: isMobile ? 'calc(50% + 30%)' : 'calc(50% + 52%)'
+                }}
                 animate={step !== 'closed' ? { opacity: 0 } : {}}
               >
-                <p className="font-serif italic text-med-blue text-lg md:text-xl drop-shadow-sm tracking-[0.05em]">
+                <p className="font-serif italic text-med-blue text-2xl md:text-3xl drop-shadow-sm tracking-[0.05em]">
                   {greeting} {guestName}
                 </p>
               </motion.div>
@@ -263,46 +475,69 @@ export default function App() {
                   delay: 0.3,
                   ease: [0.22, 1, 0.36, 1]
                 }}
-                className="absolute inset-2 sm:inset-0 sm:-translate-y-8 z-40 bg-white p-6 sm:p-8 md:p-12 shadow-2xl rounded-sm paper-texture flex flex-col items-center justify-center text-center border border-soft-blue/10"
+                className="absolute inset-2 sm:inset-0 sm:-translate-y-8 z-40 p-6 sm:p-8 md:p-12 shadow-2xl rounded-sm paper-texture flex flex-col items-center justify-center text-center border border-soft-blue/10 overflow-hidden"
+                style={{
+                  backgroundImage: 'url(/images/test.png)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
               >
+                <div className="absolute inset-0 bg-white/20" />
                 <div className="absolute inset-0 tile-pattern opacity-5 pointer-events-none" />
-                <Heart className="text-med-blue w-10 h-10 mb-6 opacity-40" />
-                <motion.h1 
+                <img
+                  src="/images/logo.png"
+                  alt="Wedding Logo"
+                  className="w-20 h-20 mb-6 opacity-80 relative z-10 mx-auto object-contain"
+                />
+                <motion.h1
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 1.1 }}
-                  className="text-3xl md:text-4xl font-serif text-med-blue mb-4"
+                  className="text-3xl md:text-4xl font-serif text-med-blue mb-4 relative z-10"
                 >
                   {greeting} {guestName}
                 </motion.h1>
-                <motion.p 
+                <motion.p
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 1.4 }}
-                  className="text-lg md:text-xl text-soft-blue leading-relaxed max-w-md italic font-serif"
+                  className="text-lg md:text-xl text-soft-blue leading-relaxed max-w-md italic font-serif relative z-10"
                 >
                   {t.letter.message}
                 </motion.p>
-                
+
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "60%" }}
                   transition={{ delay: 1.7, duration: 0.8 }}
-                  className="h-px bg-accent-blue mt-8 opacity-30"
+                  className="h-px bg-accent-blue mt-8 opacity-30 relative z-10"
                 />
               </motion.div>
             )}
           </AnimatePresence>
         </motion.div>
       </div>
-    );
-  }
+  );
 
-  return (
+  const contentView = (
     <div className="min-h-screen main-bg selection:bg-accent-blue/30 overflow-x-hidden relative">
-      <div className="absolute inset-0 bg-overlay-white pointer-events-none" />
-      <div className="relative z-10">
-        <LanguageToggle current={lang} onChange={setLang} />
+        <div className="absolute inset-0 bg-overlay-white pointer-events-none" />
+        <div className="relative z-10">
+          <LanguageToggle current={lang} onChange={setLang} />
+
+          {/* Music Toggle Button */}
+          <button
+            onClick={toggleMusic}
+            className="fixed top-6 left-6 z-50 w-12 h-12 rounded-full bg-white/80 backdrop-blur-sm border border-med-blue/20 shadow-sm flex items-center justify-center hover:bg-med-blue/10 transition-all"
+            aria-label={isMusicPlaying ? 'Pause music' : 'Play music'}
+          >
+            {isMusicPlaying ? (
+              <Volume2 className="text-med-blue" size={20} />
+            ) : (
+              <VolumeX className="text-med-blue" size={20} />
+            )}
+          </button>
+
         <header className="h-screen flex flex-col items-center justify-center text-center px-6 relative">
         <div className="absolute inset-0 tile-pattern opacity-10" />
         <motion.div
@@ -317,14 +552,15 @@ export default function App() {
             <div className="w-12 h-px bg-med-blue opacity-30" />
           </div>
           <h1 className="text-6xl md:text-8xl font-serif text-med-blue mb-4">Camila & Amin</h1>
-          <p className="text-xl md:text-2xl font-serif italic text-soft-blue">August 29, 2026 • Quito, Ecuador</p>
+          <p className="text-xl md:text-2xl font-serif italic text-soft-blue">{t.hero.date}</p>
           <Countdown lang={lang} />
-          <motion.div 
+          <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 2 }}
-            className="absolute bottom-12 left-1/2 -translate-x-1/2 text-med-blue opacity-30"
+            className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center text-med-blue opacity-40"
           >
-            <ChevronDown size={32} />
+            <span className="text-xs uppercase tracking-widest font-sans mb-2">{t.hero.readMore}</span>
+            <ChevronDown size={64} />
           </motion.div>
         </motion.div>
       </header>
@@ -332,7 +568,16 @@ export default function App() {
       {/* Our Story */}
       <Section title={t.story.title} id="story">
         <CallaLily className="-top-10 -left-10 rotate-12 opacity-20" />
-        <Card className="text-center">
+        <div
+          className="p-8 md:p-12 shadow-xl rounded-sm border border-soft-blue/10 relative overflow-hidden text-center"
+          style={{
+            backgroundImage: 'url(/images/test.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-white/65" />
+          <div className="relative z-10">
           <div className="text-base md:text-lg leading-relaxed text-soft-blue font-serif max-w-2xl mx-auto text-left space-y-4">
             {t.story.content.split('\n\n').map((paragraph, i) => (
               <p key={i}>{paragraph}</p>
@@ -356,7 +601,8 @@ export default function App() {
               />
             </div>
           </div>
-        </Card>
+          </div>
+        </div>
       </Section>
 
       {/* Program */}
@@ -382,12 +628,12 @@ export default function App() {
               viewport={{ once: true }}
               className="flex items-center gap-6 p-6 rounded-sm border-l-2 border-med-blue shadow-sm hover:shadow-md transition-shadow relative overflow-hidden"
               style={{
-                backgroundImage: 'url(/images/schedule.jpg)',
+                backgroundImage: 'url(/images/test.png)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
               }}
             >
-              <div className="absolute inset-0 bg-white/70 backdrop-blur-sm" />
+              <div className="absolute inset-0 bg-white/65 " />
               <div className="text-2xl font-serif text-med-blue w-20 relative z-10">{item.time}</div>
               <div className="w-px h-8 bg-accent-blue opacity-30 relative z-10" />
               <div className="flex-1 relative z-10">
@@ -404,13 +650,20 @@ export default function App() {
         <div
           className="p-8 md:p-12 shadow-xl rounded-sm border border-soft-blue/10 relative overflow-hidden text-center"
           style={{
-            backgroundImage: 'url(/images/schedule.jpg)',
+            backgroundImage: 'url(/images/test.png)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
         >
+          <div className="absolute inset-0 bg-white/65 " />
           <div className="relative z-10">
-            <MapPin className="mx-auto text-med-blue mb-6 opacity-50" size={40} />
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+              className="flex justify-center mb-6"
+            >
+              <MapPin className="text-med-blue opacity-50" size={40} />
+            </motion.div>
             <h3 className="text-2xl font-serif text-ink mb-2">L'Hacienda Ecuestre</h3>
             <p className="text-soft-blue mb-8 font-serif italic">{t.place.address}</p>
           </div>
@@ -420,41 +673,78 @@ export default function App() {
               alt="L'Hacienda Ecuestre"
               className="w-full h-full object-cover opacity-80"
             />
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 md:flex items-center justify-center hidden">
                <a
                  href="https://maps.app.goo.gl/3aixR56aD6SBwfi66"
                  target="_blank"
                  rel="noopener noreferrer"
-                 className="px-6 py-2 bg-white/90 backdrop-blur-sm text-med-blue border border-med-blue/20 rounded-full font-sans text-xs tracking-widest uppercase hover:bg-med-blue hover:text-white transition-all"
+                 className="px-6 py-2 bg-white/90  text-med-blue border border-med-blue/20 rounded-full font-sans text-xs tracking-widest uppercase hover:bg-med-blue hover:text-white transition-all"
                >
                 {t.place.viewMap}
               </a>
             </div>
           </div>
+          <a
+            href="https://maps.app.goo.gl/3aixR56aD6SBwfi66"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="md:hidden inline-block px-6 py-2 bg-white/90 text-med-blue border border-med-blue/20 rounded-full font-sans text-xs tracking-widest uppercase hover:bg-med-blue hover:text-white transition-all relative z-10"
+          >
+            {t.place.viewMap}
+          </a>
         </div>
       </Section>
 
       {/* Dress Code */}
       <Section title={t.dressCode.title} id="dresscode">
-        <Card className="text-center">
+        <div
+          className="p-8 md:p-12 shadow-xl rounded-sm border border-soft-blue/10 relative overflow-hidden text-center"
+          style={{
+            backgroundImage: 'url(/images/test.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-white/65" />
+          <div className="relative z-10">
           <p className="text-lg text-soft-blue mb-8 font-serif italic">{t.dressCode.description}</p>
           <div className="flex justify-center gap-4 mb-8">
-            {['#FFFFFF', '#A7C7E7', '#6FA3D2', '#2F5D8C', '#F4F7FB'].map((color) => (
-              <div 
-                key={color} 
+            {['#A6A6A6', '#E8A0B5', '#A3B18A', '#003F63', '#FFA47D'].map((color, index) => (
+              <motion.div
+                key={color}
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="w-10 h-10 rounded-full shadow-inner border border-black/5"
                 style={{ backgroundColor: color }}
               />
             ))}
           </div>
           <p className="text-sm text-med-blue/60 font-sans uppercase tracking-widest">{t.dressCode.note}</p>
-        </Card>
+          </div>
+        </div>
       </Section>
 
       {/* Honeymoon */}
       <Section title={t.gift.title} id="gift">
-        <Card className="text-center">
-          <Gift className="mx-auto text-med-blue mb-6 opacity-50" size={40} />
+        <div
+          className="p-8 md:p-12 shadow-xl rounded-sm border border-soft-blue/10 relative overflow-hidden text-center"
+          style={{
+            backgroundImage: 'url(/images/test.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-white/65" />
+          <div className="relative z-10">
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            className="flex justify-center mb-6"
+          >
+            <Gift className="text-med-blue opacity-50" size={40} />
+          </motion.div>
           <p className="text-lg text-soft-blue mb-10 font-serif italic max-w-md mx-auto">{t.gift.message}</p>
           
           <div className="space-y-6 max-w-md mx-auto">
@@ -492,23 +782,45 @@ export default function App() {
               </div>
             </div>
           </div>
-        </Card>
+          </div>
+        </div>
       </Section>
 
       {/* RSVP */}
       <Section title={t.rsvp.title} id="rsvp">
-        <Card>
+        <div
+          className="p-8 md:p-12 shadow-xl rounded-sm border border-soft-blue/10 relative overflow-hidden"
+          style={{
+            backgroundImage: 'url(/images/test.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-white/65" />
+          <div className="relative z-10">
           <AnimatePresence mode="wait">
             {rsvpStatus === 'success' ? (
-              <motion.div 
+              <motion.div
                 key="success"
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="text-center py-12"
               >
                 <CheckCircle2 className="mx-auto text-green-500 mb-6" size={64} />
-                <h3 className="text-3xl font-serif text-med-blue mb-4">{t.rsvp.thankYou}</h3>
-                <Heart className="mx-auto text-med-blue opacity-30" />
+                <h3 className="text-3xl font-serif text-med-blue mb-4">
+                  {t.rsvp.thankYouPersonal.replace('{name}', formData.name)}
+                </h3>
+                <p className="text-soft-blue font-serif italic mb-8">
+                  {guest?.gender === 'p' ? t.rsvp.thankYouPlural : t.rsvp.thankYou}
+                </p>
+                <button
+                  onClick={handleAddToCalendar}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-med-blue text-white rounded-full font-sans text-sm tracking-widest uppercase hover:bg-soft-blue transition-colors shadow-lg"
+                >
+                  <CalendarPlus size={20} />
+                  {t.rsvp.addToCalendar}
+                </button>
+                <Heart className="mx-auto text-med-blue opacity-30 mt-8" />
               </motion.div>
             ) : (
               <motion.form 
@@ -519,27 +831,51 @@ export default function App() {
               >
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-soft-blue mb-2 font-sans">{t.rsvp.name}</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     required
-                    defaultValue={guestName}
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full bg-paper/30 border-b border-soft-blue/30 py-2 px-0 focus:outline-none focus:border-med-blue transition-colors font-serif text-lg"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-xs uppercase tracking-widest text-soft-blue mb-2 font-sans">{t.rsvp.attendance}</label>
-                  <select className="w-full bg-paper/30 border-b border-soft-blue/30 py-2 px-0 focus:outline-none focus:border-med-blue transition-colors font-serif text-lg appearance-none">
-                    <option>{t.rsvp.attending}</option>
-                    <option>{t.rsvp.notAttending}</option>
-                  </select>
+                  <label className="block text-xs uppercase tracking-widest text-soft-blue mb-3 font-sans">{t.rsvp.attendance}</label>
+                  <div className="flex flex-col gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setAttending(true)}
+                      className={`w-full py-2 px-4 rounded-sm font-sans text-xs tracking-widest uppercase transition-all border ${
+                        attending === true
+                          ? 'bg-med-blue text-white border-med-blue shadow-md'
+                          : 'bg-white/50 text-soft-blue border-soft-blue/30 hover:border-med-blue hover:bg-white/70'
+                      }`}
+                    >
+                      {t.rsvp.attending}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAttending(false)}
+                      className={`w-full py-2 px-4 rounded-sm font-sans text-xs tracking-widest uppercase transition-all border ${
+                        attending === false
+                          ? 'bg-med-blue text-white border-med-blue shadow-md'
+                          : 'bg-white/50 text-soft-blue border-soft-blue/30 hover:border-med-blue hover:bg-white/70'
+                      }`}
+                    >
+                      {t.rsvp.notAttending}
+                    </button>
+                  </div>
                 </div>
 
                 <div>
                   <label className="block text-xs uppercase tracking-widest text-soft-blue mb-2 font-sans">{t.rsvp.dietary}</label>
-                  <textarea 
-                    rows={2}
-                    className="w-full bg-paper/30 border-b border-soft-blue/30 py-2 px-0 focus:outline-none focus:border-med-blue transition-colors font-serif text-lg resize-none"
+                  <textarea
+                    rows={3}
+                    placeholder={t.rsvp.dietaryPlaceholder}
+                    value={formData.dietary}
+                    onChange={(e) => setFormData({ ...formData, dietary: e.target.value })}
+                    className="w-full bg-paper/30 border-b border-soft-blue/30 py-2 px-0 focus:outline-none focus:border-med-blue transition-colors font-serif text-sm resize-none placeholder:text-soft-blue/70 placeholder:text-sm placeholder:italic"
                   />
                 </div>
 
@@ -558,24 +894,40 @@ export default function App() {
               </motion.form>
             )}
           </AnimatePresence>
-        </Card>
+          </div>
+        </div>
       </Section>
 
       {/* FAQ */}
       <Section title={t.faq.title} id="faq">
         <div className="space-y-4">
-          {[
-            { q: "Is there a shuttle?", a: "Yes, shuttles will run from Oia center starting at 11:30 AM." },
-            { q: "Can I bring a plus one?", a: "Please refer to your invitation for the number of seats reserved in your honor." },
-            { q: "What's the weather like?", a: "Santorini in June is warm and sunny, typically around 25-28°C." }
-          ].map((item, i) => (
-            <details key={i} className="group bg-white/50 backdrop-blur-sm border border-soft-blue/10 rounded-sm overflow-hidden">
-              <summary className="p-6 flex items-center justify-between cursor-pointer list-none">
-                <span className="font-serif text-xl text-med-blue">{item.q}</span>
-                <ChevronDown size={20} className="text-soft-blue group-open:rotate-180 transition-transform" />
+          {t.faq.questions.map((item, i) => (
+            <details
+              key={i}
+              className="group border border-soft-blue/10 rounded-sm overflow-hidden"
+            >
+              <summary
+                className="p-6 flex items-center justify-between cursor-pointer list-none relative"
+                style={{
+                  backgroundImage: 'url(/images/test.png)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
+                <div className="absolute inset-0 bg-white/65" />
+                <span className="font-serif text-xl text-med-blue relative z-10">{item.q}</span>
+                <ChevronDown size={20} className="text-soft-blue group-open:rotate-180 transition-transform relative z-10" />
               </summary>
-              <div className="px-6 pb-6 text-soft-blue font-serif italic">
-                {item.a}
+              <div
+                className="px-6 pb-6 text-soft-blue font-serif italic relative"
+                style={{
+                  backgroundImage: 'url(/images/test.png)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
+                <div className="absolute inset-0 bg-white/65" />
+                <div className="relative z-10">{item.a}</div>
               </div>
             </details>
           ))}
@@ -584,10 +936,23 @@ export default function App() {
 
       {/* Footer */}
       <footer className="py-20 text-center border-t border-soft-blue/10">
-        <Heart className="mx-auto text-med-blue mb-4 opacity-30" size={24} />
+        <img
+          src="/images/logo.png"
+          alt="Wedding Logo"
+          className="w-12 h-12 mb-4 opacity-90 mx-auto object-contain"
+        />
         <p className="font-serif text-soft-blue italic">C & A • 2026</p>
       </footer>
       </div>
     </div>
+  );
+
+  return (
+    <>
+      {/* Hidden YouTube Player - Persists across ALL views */}
+      <div id="youtube-player" style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}></div>
+
+      {step !== 'content' ? envelopeView : contentView}
+    </>
   );
 }
