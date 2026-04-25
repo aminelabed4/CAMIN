@@ -355,29 +355,49 @@ export default function App() {
       endTime: '2026-08-29T18:00:00'
     };
 
-    // Create ICS file content
-    const icsContent = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//Wedding Invitation//EN',
-      'BEGIN:VEVENT',
-      `DTSTART:${eventDetails.startTime.replace(/[-:]/g, '')}`,
-      `DTEND:${eventDetails.endTime.replace(/[-:]/g, '')}`,
-      `SUMMARY:${eventDetails.title}`,
-      `DESCRIPTION:${eventDetails.description}`,
-      `LOCATION:${eventDetails.location}`,
-      'END:VEVENT',
-      'END:VCALENDAR'
-    ].join('\r\n');
+    // Detect iOS
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    // Detect Android
+    const isAndroid = /Android/.test(navigator.userAgent);
 
-    // Create blob and download
-    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'wedding-camila-amin.ics';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Format dates for Google Calendar (yyyyMMddTHHmmss)
+    const formatGoogleDate = (dateStr: string) => {
+      return dateStr.replace(/[-:]/g, '').replace('.', '');
+    };
+
+    if (isIOS || isAndroid) {
+      // For mobile devices, use Google Calendar link which works on both iOS and Android
+      const startDate = formatGoogleDate(eventDetails.startTime) + 'Z';
+      const endDate = formatGoogleDate(eventDetails.endTime) + 'Z';
+
+      const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(eventDetails.title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(eventDetails.description)}&location=${encodeURIComponent(eventDetails.location)}`;
+
+      // Open in new tab/window which will redirect to the calendar app
+      window.open(googleCalendarUrl, '_blank');
+    } else {
+      // For desktop, use ICS file download
+      const icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Wedding Invitation//EN',
+        'BEGIN:VEVENT',
+        `DTSTART:${formatGoogleDate(eventDetails.startTime)}`,
+        `DTEND:${formatGoogleDate(eventDetails.endTime)}`,
+        `SUMMARY:${eventDetails.title}`,
+        `DESCRIPTION:${eventDetails.description}`,
+        `LOCATION:${eventDetails.location}`,
+        'END:VEVENT',
+        'END:VCALENDAR'
+      ].join('\r\n');
+
+      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'wedding-camila-amin.ics';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
   };
 
   const handleRsvp = async (e: FormEvent) => {
