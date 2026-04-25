@@ -212,7 +212,6 @@ export default function App() {
   useEffect(() => {
     const initializePlayer = () => {
       const playerElement = document.getElementById('youtube-player');
-      console.log('Player element exists:', !!playerElement);
 
       if (!playerElement) {
         console.error('youtube-player div not found!');
@@ -221,10 +220,9 @@ export default function App() {
 
       if (!playerRef.current) {
         try {
-          console.log('Creating YouTube player...');
           playerRef.current = new (window as any).YT.Player('youtube-player', {
-            height: '1',
-            width: '1',
+            height: '0',
+            width: '0',
             videoId: 'npT_R6QvWvY',
             playerVars: {
               start: 36,
@@ -236,20 +234,19 @@ export default function App() {
               playlist: 'npT_R6QvWvY',
               enablejsapi: 1,
               origin: window.location.origin,
-              playsinline: 1
+              playsinline: 1,
+              rel: 0,
+              fs: 0,
+              iv_load_policy: 3
             },
             events: {
               onReady: (event: any) => {
-                console.log('✅ YouTube player initialized and ready!');
+                console.log('✅ YouTube player ready');
                 setPlayerReady(true);
-                // Mute initially for iOS - will unmute on user interaction
-                if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                  event.target.mute();
-                  console.log('iOS detected - player muted initially');
-                }
+                // Set volume to 100 for all devices
+                event.target.setVolume(100);
               },
               onStateChange: (event: any) => {
-                console.log('Player state changed:', event.data);
                 const YT = (window as any).YT;
                 if (event.data === YT.PlayerState.PLAYING) {
                   setIsMusicPlaying(true);
@@ -259,6 +256,7 @@ export default function App() {
               },
               onError: (event: any) => {
                 console.error('YouTube player error:', event.data);
+                setPlayerReady(false);
               }
             }
           });
@@ -269,25 +267,22 @@ export default function App() {
     };
 
     const loadYouTubeAPI = () => {
-      console.log('Loading YouTube API...');
-
       if (!(window as any).YT || !(window as any).YT.Player) {
         const tag = document.createElement('script');
         tag.src = 'https://www.youtube.com/iframe_api';
         tag.async = true;
-        document.body.appendChild(tag);
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
 
         (window as any).onYouTubeIframeAPIReady = () => {
-          console.log('YouTube API ready!');
-          setTimeout(initializePlayer, 300);
+          console.log('YouTube API loaded');
+          initializePlayer();
         };
       } else {
-        console.log('YouTube API already loaded');
-        setTimeout(initializePlayer, 300);
+        initializePlayer();
       }
     };
 
-    // Wait for component to mount
     const timer = setTimeout(loadYouTubeAPI, 100);
 
     return () => {
@@ -295,6 +290,7 @@ export default function App() {
       if (playerRef.current && typeof playerRef.current.destroy === 'function') {
         try {
           playerRef.current.destroy();
+          playerRef.current = null;
         } catch (e) {
           console.error('Error destroying player:', e);
         }
@@ -304,53 +300,37 @@ export default function App() {
 
   // Auto-play music when letter opens (step becomes 'opened')
   useEffect(() => {
-    if (step === 'opened' && playerReady && playerRef.current) {
-      console.log('Attempting to play music...');
+    if (step === 'opened' && playerReady && playerRef.current && userInteracted) {
       setTimeout(() => {
         try {
-          const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-          if (isIOS) {
-            // For iOS, unmute and play
-            playerRef.current.unMute();
-            playerRef.current.setVolume(100);
-          }
-
+          playerRef.current.unMute();
+          playerRef.current.setVolume(100);
           playerRef.current.playVideo();
-          setIsMusicPlaying(true);
-          console.log('Music play command sent');
+          console.log('Music playback started');
         } catch (error) {
           console.error('Error playing music:', error);
         }
-      }, 500);
+      }, 800);
     }
-  }, [step, playerReady]);
+  }, [step, playerReady, userInteracted]);
 
   const toggleMusic = () => {
-    if (playerRef.current && playerReady) {
-      try {
-        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (!playerRef.current || !playerReady) {
+      console.log('Player not ready');
+      return;
+    }
 
-        if (isMusicPlaying) {
-          console.log('Pausing music');
-          playerRef.current.pauseVideo();
-        } else {
-          console.log('Playing music');
-
-          // For iOS, ensure unmuted before playing
-          if (isIOS && !userInteracted) {
-            playerRef.current.unMute();
-            playerRef.current.setVolume(100);
-            setUserInteracted(true);
-          }
-
-          playerRef.current.playVideo();
-        }
-      } catch (error) {
-        console.error('Error toggling music:', error);
+    try {
+      if (isMusicPlaying) {
+        playerRef.current.pauseVideo();
+      } else {
+        // Ensure player is unmuted and has volume
+        playerRef.current.unMute();
+        playerRef.current.setVolume(100);
+        playerRef.current.playVideo();
       }
-    } else {
-      console.log('Player not ready yet. Ready state:', playerReady);
+    } catch (error) {
+      console.error('Error toggling music:', error);
     }
   };
 
@@ -584,7 +564,7 @@ export default function App() {
             <span className="font-sans text-xs tracking-[0.3em] uppercase text-soft-blue">Save the Date</span>
             <div className="w-12 h-px bg-med-blue opacity-30" />
           </div>
-          <h1 className="text-6xl md:text-8xl font-serif text-med-blue mb-4">Camila Meza & Amin</h1>
+          <h1 className="text-6xl md:text-8xl font-serif text-med-blue mb-4">Camila & Amin</h1>
           <p className="text-xl md:text-2xl font-serif italic text-soft-blue">{t.hero.date}</p>
           <Countdown lang={lang} />
           <motion.div
@@ -983,7 +963,19 @@ export default function App() {
   return (
     <>
       {/* Hidden YouTube Player - Persists across ALL views */}
-      <div id="youtube-player" style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}></div>
+      <div
+        id="youtube-player"
+        style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          width: '1px',
+          height: '1px',
+          opacity: 0,
+          pointerEvents: 'none',
+          zIndex: -1
+        }}
+      ></div>
 
       {step !== 'content' ? envelopeView : contentView}
     </>
