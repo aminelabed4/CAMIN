@@ -548,7 +548,12 @@ export default function App() {
   );
 
   const contentView = (
-    <div className="min-h-screen main-bg selection:bg-accent-blue/30 overflow-x-hidden relative">
+    <div className="min-h-screen selection:bg-accent-blue/30 overflow-x-hidden relative">
+        {/* Fixed background for mobile, regular background for desktop */}
+        <div className="fixed inset-0 -z-10 md:hidden">
+          <div className="w-full h-full bg-cover bg-center bg-no-repeat" style={{ backgroundImage: 'url(/images/main-background-mobile.png)' }} />
+        </div>
+        <div className="hidden md:block fixed inset-0 -z-10 main-bg" />
         <div className="absolute inset-0 bg-overlay-white pointer-events-none" />
         <div className="relative z-10">
           <LanguageToggle current={lang} onChange={setLang} />

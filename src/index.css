@@ -13,9 +13,15 @@
 }
 
 @layer base {
+  html {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   body {
     @apply bg-paper text-ink font-serif antialiased;
-    background-image: url("/images/natural-paper.png");
+    width: 100%;
+    overflow-x: hidden;
   }
 }
 
@@ -36,17 +42,10 @@
 }
 
 .main-bg {
-  background-image: url("/images/main-background-mobile.png");
+  background-image: url("/images/main-background-desktop.png");
   background-size: cover;
-  background-position: center;
-}
-
-@media (min-width: 768px) {
-  .main-bg {
-    background-image: url("/images/main-background-desktop.png");
-    background-attachment: fixed;
-    background-position: center 28%;
-  }
+  background-position: center 28%;
+  background-attachment: fixed;
 }
 
 .bg-overlay-dim {
