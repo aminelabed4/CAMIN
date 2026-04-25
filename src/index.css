@@ -39,14 +39,13 @@
   background-image: url("/images/main-background-mobile.png");
   background-size: cover;
   background-position: center;
-  background-attachment: scroll;
 }
 
 @media (min-width: 768px) {
   .main-bg {
     background-image: url("/images/main-background-desktop.png");
-    background-position: center 28%;
     background-attachment: fixed;
+    background-position: center 28%;
   }
 }
 
