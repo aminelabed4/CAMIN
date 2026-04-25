@@ -24,7 +24,7 @@
 }
 
 .hero-bg {
-  background-image: url("/images/index_mobile.jpeg");
+  background-image: url("/images/hero-background-mobile.png");
   background-size: cover;
   background-position: center;
 }
@@ -36,7 +36,7 @@
 }
 
 .main-bg {
-  background-image: url("/images/ecuador.png");
+  background-image: url("/images/main-background-mobile.png");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -44,6 +44,7 @@
 
 @media (min-width: 768px) {
   .main-bg {
+    background-image: url("/images/main-background-desktop.png");
     background-position: center 28%;
   }
 }
