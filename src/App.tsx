@@ -171,6 +171,7 @@ export default function App() {
   const playerRef = useRef<any>(null);
   const [playerReady, setPlayerReady] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [userInteracted, setUserInteracted] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -234,12 +235,18 @@ export default function App() {
               loop: 1,
               playlist: 'npT_R6QvWvY',
               enablejsapi: 1,
-              origin: window.location.origin
+              origin: window.location.origin,
+              playsinline: 1
             },
             events: {
               onReady: (event: any) => {
                 console.log('✅ YouTube player initialized and ready!');
                 setPlayerReady(true);
+                // Mute initially for iOS - will unmute on user interaction
+                if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                  event.target.mute();
+                  console.log('iOS detected - player muted initially');
+                }
               },
               onStateChange: (event: any) => {
                 console.log('Player state changed:', event.data);
@@ -301,6 +308,14 @@ export default function App() {
       console.log('Attempting to play music...');
       setTimeout(() => {
         try {
+          const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+          if (isIOS) {
+            // For iOS, unmute and play
+            playerRef.current.unMute();
+            playerRef.current.setVolume(100);
+          }
+
           playerRef.current.playVideo();
           setIsMusicPlaying(true);
           console.log('Music play command sent');
@@ -314,11 +329,21 @@ export default function App() {
   const toggleMusic = () => {
     if (playerRef.current && playerReady) {
       try {
+        const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
         if (isMusicPlaying) {
           console.log('Pausing music');
           playerRef.current.pauseVideo();
         } else {
           console.log('Playing music');
+
+          // For iOS, ensure unmuted before playing
+          if (isIOS && !userInteracted) {
+            playerRef.current.unMute();
+            playerRef.current.setVolume(100);
+            setUserInteracted(true);
+          }
+
           playerRef.current.playVideo();
         }
       } catch (error) {
@@ -333,6 +358,9 @@ export default function App() {
   const greeting = guest ? getGreeting(lang, guest.gender) : t.letter.dear;
 
   const handleOpen = () => {
+    // Mark that user has interacted - crucial for iOS audio
+    setUserInteracted(true);
+
     setStep('opening');
     setTimeout(() => setStep('opened'), 1500);
     setTimeout(() => setStep('content'), 7000);
