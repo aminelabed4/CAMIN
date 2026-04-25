@@ -299,20 +299,22 @@ export default function App() {
   }, []);
 
   // Auto-play music when letter opens (step becomes 'opened')
+  // Note: Music is now started in handleOpen() on wax seal click for better iOS compatibility
   useEffect(() => {
-    if (step === 'opened' && playerReady && playerRef.current && userInteracted) {
+    if (step === 'opened' && playerReady && playerRef.current && userInteracted && !isMusicPlaying) {
+      // Fallback: only try to play if music isn't already playing
       setTimeout(() => {
         try {
           playerRef.current.unMute();
           playerRef.current.setVolume(100);
           playerRef.current.playVideo();
-          console.log('Music playback started');
+          console.log('Music playback started (fallback)');
         } catch (error) {
           console.error('Error playing music:', error);
         }
       }, 800);
     }
-  }, [step, playerReady, userInteracted]);
+  }, [step, playerReady, userInteracted, isMusicPlaying]);
 
   const toggleMusic = () => {
     if (!playerRef.current || !playerReady) {
@@ -340,6 +342,18 @@ export default function App() {
   const handleOpen = () => {
     // Mark that user has interacted - crucial for iOS audio
     setUserInteracted(true);
+
+    // Immediately unmute and start music on user interaction (iOS requirement)
+    if (playerRef.current && playerReady) {
+      try {
+        playerRef.current.unMute();
+        playerRef.current.setVolume(100);
+        playerRef.current.playVideo();
+        console.log('Music started on wax seal click');
+      } catch (error) {
+        console.error('Error starting music on click:', error);
+      }
+    }
 
     setStep('opening');
     setTimeout(() => setStep('opened'), 1500);
