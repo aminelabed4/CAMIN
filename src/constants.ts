@@ -49,7 +49,7 @@ export const GUESTS: Guest[] = [
   { name: "Daniel Jaramillo & Sol Rubio", code: "daniel-sol", group: "A", gender: "p" },
   { name: "Daniela Jaramillo", code: "daniela-jaramillo", group: "A", gender: "f" },
   { name: "Essia Bougdar & Anouar El Abed", code: "essia-anouar", group: "A", gender: "p" },
-  { name: "Nesrine El Abed & Elias Negra", code: "nesrine-elias", group: "A", gender: "p" },
+  { name: "Nesrine El Abed & Elyes Negra", code: "nesrine-elyes", group: "A", gender: "p" },
   { name: "Cecilia Utreras", code: "cecilia-utreras", group: "A", gender: "f" },
   { name: "Yolanda Hernandez", code: "yolanda-hernandez", group: "A", gender: "f" },
   { name: "Daniela Olmedo", code: "daniela-olmedo", group: "A", gender: "f" },
