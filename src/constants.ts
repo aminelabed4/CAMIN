@@ -196,7 +196,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     gift: {
       title: "",
-      message: "If you wish to give us a wedding gift, we would be very grateful for a contribution.",
+      message: "We sincerely appreciate your kind contribution.",
       copy: "Copy",
       copied: "Copied!"
     },
@@ -265,7 +265,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     gift: {
       title: "",
-      message: "Si vous souhaitez nous offrir un cadeau de mariage, nous serions très reconnaissants pour une contribution.",
+      message: "Nous vous remercions chaleureusement pour votre aimable contribution.",
       copy: "Copier",
       copied: "Copié !"
     },
@@ -334,7 +334,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     gift: {
       title: "",
-      message: "Si desean hacernos un regalo de boda, estaremos muy agradecidos por una contribución.",
+      message: "Agradecemos con mucho cariño su gentil contribución.",
       copy: "Copiar",
       copied: "¡Copiado!"
     },
