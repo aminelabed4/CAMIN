@@ -598,8 +598,8 @@ export default function App() {
             <span className="font-sans text-xs tracking-[0.3em] uppercase text-med-blue font-semibold">Save the Date</span>
             <div className="w-12 h-px bg-med-blue opacity-30" />
           </div>
-          <h1 className="text-6xl md:text-8xl font-serif text-med-blue mb-4 font-bold">Camila & Amin</h1>
-          <p className="text-xl md:text-2xl font-serif italic text-med-blue font-semibold">{t.hero.date}</p>
+          <h1 className="text-6xl md:text-8xl font-serif text-med-blue mb-4">Camila & Amin</h1>
+          <p className="text-xl md:text-2xl font-serif italic text-soft-blue">{t.hero.date}</p>
           <Countdown lang={lang} />
           <motion.div
             animate={{ y: [0, 10, 0] }}
