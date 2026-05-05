@@ -195,8 +195,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       note: "White is reserved for the bride. Light blue for the groom."
     },
     gift: {
-      title: "Gift",
-      message: "If you wish to give us a wedding gift, we would be very grateful for a contribution. Your presence is very important to us.",
+      title: "",
+      message: "If you wish to give us a wedding gift, we would be very grateful for a contribution.",
       copy: "Copy",
       copied: "Copied!"
     },
@@ -264,8 +264,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       note: "Le blanc est réservé à la mariée. Le bleu clair pour le marié."
     },
     gift: {
-      title: "Cadeau",
-      message: "Si vous souhaitez nous offrir un cadeau de mariage, nous serions très reconnaissants pour une contribution. Votre présence est très importante pour nous.",
+      title: "",
+      message: "Si vous souhaitez nous offrir un cadeau de mariage, nous serions très reconnaissants pour une contribution.",
       copy: "Copier",
       copied: "Copié !"
     },
@@ -333,8 +333,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       note: "El blanco está reservado para la novia. El azul claro para el novio."
     },
     gift: {
-      title: "Regalo",
-      message: "Si desean hacernos un regalo de boda, estaremos muy agradecidos por una contribución. Su presencia es muy importante para nosotros.",
+      title: "",
+      message: "Si desean hacernos un regalo de boda, estaremos muy agradecidos por una contribución.",
       copy: "Copiar",
       copied: "¡Copiado!"
     },
