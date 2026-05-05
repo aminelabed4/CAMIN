@@ -78,8 +78,8 @@ const Countdown = ({ lang }: { lang: Language }) => {
         { label: t.seconds, value: timeLeft.seconds },
       ].map((item, i) => (
         <div key={i} className="text-center">
-          <div className="text-3xl md:text-5xl font-serif font-light text-med-blue">{item.value.toString().padStart(2, '0')}</div>
-          <div className="text-[10px] md:text-xs uppercase tracking-widest text-soft-blue mt-1 font-sans">{item.label}</div>
+          <div className="text-3xl md:text-5xl font-serif font-semibold text-med-blue">{item.value.toString().padStart(2, '0')}</div>
+          <div className="text-[10px] md:text-xs uppercase tracking-widest text-med-blue mt-1 font-sans font-semibold">{item.label}</div>
         </div>
       ))}
     </div>
@@ -595,18 +595,18 @@ export default function App() {
         >
           <div className="flex items-center justify-center gap-4 mb-6">
             <div className="w-12 h-px bg-med-blue opacity-30" />
-            <span className="font-sans text-xs tracking-[0.3em] uppercase text-soft-blue">Save the Date</span>
+            <span className="font-sans text-xs tracking-[0.3em] uppercase text-med-blue font-semibold">Save the Date</span>
             <div className="w-12 h-px bg-med-blue opacity-30" />
           </div>
-          <h1 className="text-6xl md:text-8xl font-serif text-med-blue mb-4">Camila & Amin</h1>
-          <p className="text-xl md:text-2xl font-serif italic text-soft-blue">{t.hero.date}</p>
+          <h1 className="text-6xl md:text-8xl font-serif text-med-blue mb-4 font-bold">Camila & Amin</h1>
+          <p className="text-xl md:text-2xl font-serif italic text-med-blue font-semibold">{t.hero.date}</p>
           <Countdown lang={lang} />
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ repeat: Infinity, duration: 2 }}
             className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center text-med-blue opacity-40"
           >
-            <span className="text-xs uppercase tracking-widest font-sans mb-2">{t.hero.readMore}</span>
+            <span className="text-xs uppercase tracking-widest font-sans mb-2 font-semibold">{t.hero.readMore}</span>
             <ChevronDown size={64} />
           </motion.div>
         </motion.div>
@@ -659,8 +659,8 @@ export default function App() {
           {(guest?.group === 'B' ? [
             { time: "15:00", event: t.program.firstDance, icon: Music },
             { time: "15:30", event: t.program.party, icon: Heart },
-            { time: "17:00", event: t.program.snack, icon: Utensils },
-            { time: "18:00", event: t.program.crazyHour, icon: Music },
+            { time: "", event: t.program.snack, icon: Utensils },
+            { time: "", event: t.program.crazyHour, icon: Music },
           ] : [
             { time: "12:30", event: t.program.ceremony, icon: Heart },
             { time: "13:30", event: t.program.catering, icon: Utensils },
@@ -756,7 +756,7 @@ export default function App() {
           <div className="relative z-10">
           <p className="text-lg text-soft-blue mb-8 font-serif italic">{t.dressCode.description}</p>
           <div className="flex justify-center gap-4 mb-8">
-            {['#A6A6A6', '#E8A0B5', '#A3B18A', '#003F63', '#FFA47D'].map((color, index) => (
+            {['#f4d97a', '#E8A0B5', '#A3B18A', '#003F63', '#FFA47D'].map((color, index) => (
               <motion.div
                 key={color}
                 initial={{ opacity: 0, scale: 0.8 }}

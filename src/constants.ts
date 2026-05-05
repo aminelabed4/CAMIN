@@ -127,7 +127,7 @@ export const GUESTS: Guest[] = [
   { name: "Hassan Zeroual & his wife", code: "hassan-zeroual", group: "B", gender: "p" },
   { name: "Patrick Wagner", code: "patrick-wagner", group: "B", gender: "m" },
   { name: "Margulan Otanuly", code: "margulan-otanuly", group: "B", gender: "m" },
-  { name: "Mohammed & Amina", code: "mohammed-amina", group: "B", gender: "p" },
+  { name: "Mohamed & Amina", code: "mohamed-amina", group: "B", gender: "p" },
   { name: "Michelle Oviedo", code: "michelle-oviedo", group: "B", gender: "f" },
   { name: "Misheel", code: "misheel", group: "B", gender: "f" },
   { name: "Gustavo Egüez & Gabriela Carrión", code: "gustavo-gabriela-carrion", group: "B", gender: "p" },
@@ -173,7 +173,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     story: {
       title: "Our Story",
-      content: "We met at the end of 2020, both starting over in Bremen—Camila arriving from Ecuador and Amin beginning a new chapter in a different city. What began as two people far from home grew into something real—a connection that felt like home in itself.\n\nWe've been each other's support through the difficult moments and celebrated the happiest ones, from Amin's graduations to the day we adopted Zina, our rescue cat.\n\nIn January 2026, with a certainty we had long felt, Amin asked Camila to marry him. It wasn't a simple question—but it was the easiest answer: yes, for the rest of our lives."
+      content: "We met at the end of 2020, starting over in Bremen; Camila arriving from Ecuador and Amin beginning a new chapter in a different city. What began as two people far from home grew into something real and beautiful: \"a connection that felt like home in itself.\"\n\nWe've been each other's support through the difficult moments and celebrated the happiest ones, from Amin's graduations to the day we decided to grow our family by adopting Zina, our rescue cat.\n\nIn January 2026, with a certainty we had long felt, Amin asked Camila to marry him. It wasn't a simple question, but it was the easiest answer: YES, for the rest of our lives."
     },
     program: {
       title: "Your Schedule",
@@ -192,20 +192,20 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     dressCode: {
       title: "Dress Code",
       description: "Formal Attire. We suggest elegant outfits suitable for an evening celebration in the Ecuadorian highlands.",
-      note: "Note: White is reserved for the bride. Light blue is reserved for the groom."
+      note: "White is reserved for the bride. Light blue for the groom."
     },
     gift: {
-      title: "Gift for Our Journey",
-      message: "Your presence is the greatest gift. However, if you wish to contribute to our honeymoon journey, we would be deeply grateful.",
+      title: "Gift",
+      message: "If you wish to give us a wedding gift, we would be very grateful for a contribution. Your presence is very important to us.",
       copy: "Copy",
       copied: "Copied!"
     },
     rsvp: {
-      title: "RSVP",
+      title: "We appreciate your confirmation",
       name: "Your Name",
       attendance: "Will you attend?",
       attending: "Yes, I'll be there",
-      notAttending: "Regretfully, I can't make it",
+      notAttending: "Regretfully, I won't be able to attend",
       guests: "Number of Guests",
       dietary: "Dietary Restrictions",
       dietaryPlaceholder: "If you have any allergies or dietary restrictions, please let us know here",
@@ -220,7 +220,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       questions: [
         { q: "Are children invited?", a: "While we love the little ones, we have decided that our wedding and reception will be an adults-only event. We hope you understand and enjoy a night off!" },
         { q: "Can I bring someone else?", a: "Due to venue capacity limitations, we can only accommodate guests formally named on your invitation." },
-        { q: "Is there parking?", a: "Yes, there is ample free parking available at the venue." }
+        { q: "Do I need to follow the dress code color palette exactly?", a: "It's not necessary to follow them strictly. The indicated colors are a guide. We invite you to choose tones within a Mediterranean palette, such as vivid or pastel colors, maintaining a harmonious style with the wedding atmosphere." },
+        { q: "Is there parking?", a: "Yes, there is ample parking available at the venue." }
       ]
     }
   },
@@ -241,7 +242,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     story: {
       title: "Notre Histoire",
-      content: "Nous nous sommes rencontrés fin 2020, tous deux recommençant à zéro à Brême—Camila arrivant d'Équateur et Amin commençant un nouveau chapitre dans une autre ville. Ce qui a commencé comme deux personnes loin de chez elles est devenu quelque chose de réel—une connexion qui ressemblait à un foyer en elle-même.\n\nNous avons été le soutien l'un de l'autre dans les moments difficiles et avons célébré les plus heureux, des diplômes d'Amin au jour où nous avons adopté Zina, notre chatte rescapée.\n\nEn janvier 2026, avec une certitude que nous ressentions depuis longtemps, Amin a demandé Camila en mariage. Ce n'était pas une question simple—mais c'était la réponse la plus facile : oui, pour le reste de nos vies."
+      content: "Nous nous sommes rencontrés fin 2020, recommençant à zéro à Brême ; Camila arrivant d'Équateur et Amin commençant un nouveau chapitre dans une autre ville. Ce qui a commencé comme deux personnes loin de chez elles est devenu quelque chose de réel et de beau : « une connexion qui ressemblait à un foyer en elle-même ».\n\nNous avons été le soutien l'un de l'autre dans les moments difficiles et avons célébré les plus heureux, des diplômes d'Amin au jour où nous avons décidé d'agrandir notre famille en adoptant Zina, notre chatte rescapée.\n\nEn janvier 2026, avec une certitude que nous ressentions depuis longtemps, Amin a demandé Camila en mariage. Ce n'était pas une question simple, mais c'était la réponse la plus facile : OUI, pour le reste de nos vies."
     },
     program: {
       title: "Votre Programme",
@@ -260,20 +261,20 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     dressCode: {
       title: "Code Vestimentaire",
       description: "Tenue de soirée. Nous suggérons des tenues élégantes adaptées à une célébration en soirée dans les hautes terres équatoriennes.",
-      note: "Note : Le blanc est réservé à la mariée. Le bleu clair est réservé au marié."
+      note: "Le blanc est réservé à la mariée. Le bleu clair pour le marié."
     },
     gift: {
-      title: "Cadeau pour notre voyage",
-      message: "Votre présence est le plus beau des cadeaux. Cependant, si vous souhaitez contribuer à notre voyage de noces, nous vous en serions profondément reconnaissants.",
+      title: "Cadeau",
+      message: "Si vous souhaitez nous offrir un cadeau de mariage, nous serions très reconnaissants pour une contribution. Votre présence est très importante pour nous.",
       copy: "Copier",
       copied: "Copié !"
     },
     rsvp: {
-      title: "Réponse",
+      title: "Nous apprécions votre confirmation",
       name: "Votre Nom",
       attendance: "Serez-vous présent ?",
       attending: "Oui, je serai là",
-      notAttending: "Malheureusement, je ne pourrai pas venir",
+      notAttending: "Malheureusement, je ne pourrai pas assister",
       guests: "Nombre d'invités",
       dietary: "Restrictions alimentaires",
       dietaryPlaceholder: "Si vous avez des allergies ou des restrictions alimentaires, veuillez nous en informer ici",
@@ -288,7 +289,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       questions: [
         { q: "Les enfants sont-ils invités ?", a: "Bien que nous adorions les plus jeunes, nous avons décidé que notre mariage et notre réception seraient un événement réservé aux adultes. Nous espérons que vous comprendrez et profiterez d'une soirée libre !" },
         { q: "Puis-je amener quelqu'un d'autre ?", a: "En raison des limitations de capacité du lieu, nous ne pouvons accueillir que les invités formellement nommés sur votre invitation." },
-        { q: "Y a-t-il un parking ?", a: "Oui, un grand parking gratuit est disponible sur place." }
+        { q: "Dois-je suivre exactement la palette de couleurs du code vestimentaire ?", a: "Ce n'est pas nécessaire de les suivre strictement. Les couleurs indiquées sont un guide. Nous vous invitons à choisir des tons dans une palette méditerranéenne, comme des couleurs vives ou pastel, en maintenant un style harmonieux avec l'ambiance du mariage." },
+        { q: "Y a-t-il un parking ?", a: "Oui, un grand parking est disponible sur place." }
       ]
     }
   },
@@ -309,7 +311,7 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     },
     story: {
       title: "Nuestra Historia",
-      content: "Nos conocimos a finales de 2020, ambos comenzando de nuevo en Bremen—Camila llegando desde Ecuador y Amin iniciando un nuevo capítulo en una ciudad diferente. Lo que comenzó como dos personas lejos de casa se convirtió en algo real—una conexión que se sentía como hogar en sí misma.\n\nHemos sido el apoyo del otro en los momentos difíciles y celebrado los más felices, desde las graduaciones de Amin hasta el día que decidimos crecer nuestra familia adoptando a Zina, nuestra gata rescatada.\n\nEn enero de 2026, con una certeza que sentíamos desde hace tiempo, Amin le pidió a Camila que se casara con él. No fue una pregunta simple—pero fue la respuesta más fácil: sí, para el resto de nuestras vidas."
+      content: "Nos conocimos a finales de 2020, comenzando de nuevo en Bremen; Camila llegando desde Ecuador y Amin iniciando un nuevo capítulo en una ciudad diferente. Lo que comenzó como dos personas lejos de casa, se convirtió en algo real y hermoso: \"una conexión que se sentía como hogar en sí misma\".\n\nHemos sido apoyo uno del otro en los momentos difíciles y celebrado los más felices, desde las graduaciones de Amin hasta el día en que decidimos hacer crecer nuestra familia adoptando a Zina, nuestra gata rescatada.\n\nEn enero de 2026, con una certeza que sentíamos desde hace tiempo, Amin le pidió a Camila que se casara con él. No fue una pregunta simple, pero, fue la respuesta más fácil: SÍ, para el resto de nuestras vidas."
     },
     program: {
       title: "Tu Horario",
@@ -328,20 +330,20 @@ export const TRANSLATIONS: Record<Language, Translation> = {
     dressCode: {
       title: "Código de Vestimenta",
       description: "Traje Formal. Sugerimos atuendos elegantes adecuados para una celebración en la tarde.",
-      note: "Nota: El blanco está reservado para la novia. El azul claro está reservado para el novio."
+      note: "El blanco está reservado para la novia. El azul claro para el novio."
     },
     gift: {
-      title: "Regalo para nuestro viaje",
-      message: "Su presencia es el mejor regalo. Sin embargo, si deseas darnos un regalo de boda, podrías contribuir a nuestro viaje de luna de miel. Estaríamos profundamente agradecidos.",
+      title: "Regalo",
+      message: "Si desean hacernos un regalo de boda, estaremos muy agradecidos por una contribución. Su presencia es muy importante para nosotros.",
       copy: "Copiar",
       copied: "¡Copiado!"
     },
     rsvp: {
-      title: "Confirmación",
+      title: "Agradecemos su confirmación",
       name: "Tu Nombre",
       attendance: "¿Asistirás?",
       attending: "Sí, allí estaré",
-      notAttending: "Lamentablemente, no puedo ir",
+      notAttending: "Lamentablemente no podré asistir",
       guests: "Número de invitados",
       dietary: "Restricciones alimentarias",
       dietaryPlaceholder: "Si tienes alguna alergia o restricción alimentaria, por favor indícala aquí",
@@ -356,7 +358,8 @@ export const TRANSLATIONS: Record<Language, Translation> = {
       questions: [
         { q: "¿Están invitados los niños?", a: "Aunque amamos a los más pequeños, hemos decidido que nuestra boda y recepción sean un evento solo para adultos. ¡Esperamos que lo entiendan y disfruten de una noche libre!" },
         { q: "¿Puedo llevar a alguien más?", a: "Debido a las limitaciones de capacidad del lugar, solo podemos acomodar a los invitados nombrados formalmente en su invitación." },
-        { q: "¿Hay estacionamiento?", a: "Sí, hay un amplio estacionamiento gratuito disponible en el lugar." }
+        { q: "¿Debo seguir exactamente la paleta de colores del código de vestimenta?", a: "No es necesario seguirlos de manera estricta. Los colores indicados son una guía. Les invitamos a elegir tonos dentro de una paleta mediterránea, como colores vivos o pasteles, manteniendo un estilo armonioso con el ambiente de la boda." },
+        { q: "¿Hay estacionamiento?", a: "Sí, hay un amplio estacionamiento disponible en el lugar." }
       ]
     }
   }
