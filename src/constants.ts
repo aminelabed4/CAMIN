@@ -88,7 +88,7 @@ export const GUESTS: Guest[] = [
   { name: "Daniela Gonzalez & Martin Salerni", code: "daniela-martin", group: "B", gender: "p" },
   { name: "Cynthia Ordóñez", code: "cynthia-ordonez", group: "B", gender: "f" },
   { name: "Cristian Gudiño & Gabriela", code: "cristian-gabriela-gudino", group: "B", gender: "p" },
-  { name: "Jaime González", code: "jaime-gonzalez", group: "B", gender: "m" },
+  { name: "Jaime González & Nena Loayza", code: "jaime-nena", group: "B", gender: "p" },
   { name: "Ivan Aguirre & Micaela Montalvo", code: "ivan-micaela", group: "B", gender: "p" },
   { name: "Camila Chávez", code: "camila-chavez", group: "B", gender: "f" },
   { name: "Alma Löfgren", code: "alma-lofgren", group: "B", gender: "f" },
@@ -137,6 +137,7 @@ export const GUESTS: Guest[] = [
   { name: "François Abumohor", code: "francois-abumohor", group: "B", gender: "m" },
   { name: "Sisa Cueva", code: "sisa-cueva", group: "B", gender: "f" },
   { name: "Sara Cueva", code: "sara-cueva", group: "B", gender: "f" },
+  { name: "Marianela Chávez", code: "marianela", group: "B", gender: "f" },
   { name: "Pau Abumohor", code: "pau-abumohor", group: "B", gender: "f" },
 ];
 
