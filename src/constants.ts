@@ -146,6 +146,7 @@ export const GUESTS: Guest[] = [
   { name: "Nathalie Obiol ", code: "nathalie-obiol", group: "B", gender: "f" },
   { name: "Sebastián Mejía", code: "sebastian-mejia", group: "B", gender: "m" },
   { name: "Diana Harrington & Francisco Salazar", code: "diana-francisco", group: "B", gender: "p" },
+  { name: "Edith Guala & Esposo", code: "edith-esposo", group: "B", gender: "p" },
   { name: "Pau Abumohor", code: "pau-abumohor", group: "B", gender: "f" },
 ];
 
